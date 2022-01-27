@@ -29,12 +29,20 @@ jobs:
       - name: Run a one-line script
         run: cat app1/readme.md
       
-      - name: Fake App2 success
+      - uses: octokit/request-action@v2.1.0
+        id: fake_app_2_success
         if: ${{ success() }}
-        uses: octokit/request-action@v2.1.0
         with:
-          route: POST https://api.github.com/repos/Sam-Rowe/scaling-adventure/statuses/${{ github.sha }}
+          name: "Fake App2 success"
+          route: POST /repos/{owner}/{repo}/statuses/${{ github.sha }}
+          owner: Sam-Rowe
+          repo: scaling-adventure
           body: |
-            { "state" : "success" }
+            {
+            "state": "failure",
+            "description": "Branch name is 'master' or matches regex ^ABC-[0-9]{1,4}$",
+            "context": "check-branch-name",
+            "target_url": ""
+            }
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

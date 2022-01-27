@@ -35,6 +35,6 @@ jobs:
         with:
           route: POST https://api.github.com/repos/Sam-Rowe/scaling-adventure/statuses/${{ github.sha }}
           body: |
-            { state: "success" }
+            { "state" : "success" }
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

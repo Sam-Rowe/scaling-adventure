@@ -28,3 +28,13 @@ jobs:
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: cat app1/readme.md
+      
+      - name: Fake App2 success
+        if: ${{ success() }}
+        uses: octokit/request-action@v2.1.0
+        with:
+          route: POST https://api.github.com/repos/Sam-Rowe/scaling-adventure/statuses/${{ github.sha }}
+          body: |
+            { state: "success" }
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
